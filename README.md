@@ -15,6 +15,8 @@ you can use these components or build your own ones by deriving from `IMailCompo
 
 ## How to use
 
+Clone git repo or add [Nuget](https://www.nuget.org/packages/EmailBuilder/1.0.0) package
+
 start with using the `MailBuilder` like this:
 
 ```
