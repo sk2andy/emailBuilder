@@ -2,6 +2,10 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp2.2</TargetFramework>
+        <PackageId>EmailBuilder</PackageId>
+        <Version>1.2.0</Version>
+        <Authors>André Naumann</Authors>
+        <Company>we-do.ai GmbH</Company>
     </PropertyGroup>
 
     <ItemGroup>

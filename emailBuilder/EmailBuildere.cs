@@ -67,7 +67,7 @@ namespace emailBuilder
     {
         private readonly string _content;
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IMailComponent" />
         protected AbstractSimpleComponent(string content)
         {
             _content = content;
@@ -108,17 +108,29 @@ namespace emailBuilder
     /// </summary>
     public class TitleComponent : AbstractSimpleComponent
     {
+        private readonly string _brandName;
         private readonly Uri _logoUri;
+        private readonly string _separatorColor;
+        private readonly string _backgroundColor;
+        private readonly string _brandFontColor;
         private readonly string _title;
 
         /// <summary>
         /// component that represents the title of an email 
         /// </summary>
+        /// <param name="brandName">name of your brand</param>
         /// <param name="title">title of an email</param>
-        /// <param name="logoUri">uri of the logo that shold be used</param>
-        public TitleComponent(string title, Uri logoUri) : base(title)
+        /// <param name="logoUri">uri of the logo that should be used</param>
+        /// <param name="separatorColor">color of the separator that separates the title of the content</param>
+        /// <param name="backgroundColor">background color of title</param>
+        /// <param name="brandFontColor">font color of brand name</param>
+        public TitleComponent(string brandName, string title, Uri logoUri, string separatorColor = "black", string backgroundColor = "transparent", string brandFontColor = "black") : base(title)
         {
+            _brandName = brandName;
             _logoUri = logoUri;
+            _separatorColor = separatorColor;
+            _backgroundColor = backgroundColor;
+            _brandFontColor = brandFontColor;
             _title = title;
         }
 
@@ -131,7 +143,12 @@ namespace emailBuilder
         /// <inheritdoc />
         protected override string AfterBuild(string content)
         {
-            return content.Replace("{logo}", _logoUri.ToString()).Replace("{title}", _title);
+            return content
+                .Replace("{logo}", _logoUri.ToString())
+                .Replace("{brand}", _brandName)
+                .Replace("{backgroundColor}", _backgroundColor)
+                .Replace("{separatorColor}", _separatorColor)
+                .Replace("{brandFontColor}", _brandFontColor);
         }
     }
 
@@ -327,6 +344,46 @@ namespace emailBuilder
         protected override string AfterBuild(string content)
         {
             return content.Replace("{target}", Target).Replace("{align}", Align).Replace("{color}", Color);
+        }
+    }
+
+    public class FooterComponent : AbstractSimpleComponent
+    {
+        private readonly string _entrySentence;
+        private readonly string _companyName;
+        private readonly string _phone;
+        private readonly string _email;
+        private readonly string _street;
+        private readonly string _zipCode;
+        private readonly string _city;
+
+        public FooterComponent(string entrySentence, string companyName, string phone, string email, string street, string zipCode, string city) : base(companyName)
+        {
+            _entrySentence = entrySentence;
+            _companyName = companyName;
+            _phone = phone;
+            _email = email;
+            _street = street;
+            _zipCode = zipCode;
+            _city = city;
+        }
+
+        protected override string FileName()
+        {
+            return "footer.html";
+        }
+        
+        /// <inheritdoc />
+        protected override string AfterBuild(string content)
+        {
+            return content
+                .Replace("{entrySentence}", _entrySentence)
+                .Replace("{companyName}", _companyName)
+                .Replace("{phone}", _phone)
+                .Replace("{email}", _email)
+                .Replace("{street}", _street)
+                .Replace("{zipCode}", _zipCode)
+                .Replace("{city}", _city);
         }
     }
 
