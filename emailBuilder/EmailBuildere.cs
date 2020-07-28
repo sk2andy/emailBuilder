@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Web;
 
 namespace emailBuilder
 {
@@ -124,7 +125,7 @@ namespace emailBuilder
         /// <param name="separatorColor">color of the separator that separates the title of the content</param>
         /// <param name="backgroundColor">background color of title</param>
         /// <param name="brandFontColor">font color of brand name</param>
-        public TitleComponent(string brandName, string title, Uri logoUri, string separatorColor = "black", string backgroundColor = "transparent", string brandFontColor = "black") : base(title)
+        public TitleComponent(string brandName, string title, Uri logoUri, string separatorColor = "black", string backgroundColor = "transparent", string brandFontColor = "black") : base(HttpUtility.HtmlEncode(title))
         {
             _brandName = brandName;
             _logoUri = logoUri;
@@ -145,7 +146,7 @@ namespace emailBuilder
         {
             return content
                 .Replace("{logo}", _logoUri.ToString())
-                .Replace("{brand}", _brandName)
+                .Replace("{brand}", HttpUtility.HtmlEncode(_brandName))
                 .Replace("{backgroundColor}", _backgroundColor)
                 .Replace("{separatorColor}", _separatorColor)
                 .Replace("{brandFontColor}", _brandFontColor);
@@ -180,7 +181,7 @@ namespace emailBuilder
         /// </summary>
         /// <param name="text">text for component</param>
         /// <param name="align">align of the text</param>
-        public TextComponent(string text, string align = "left") : base(text)
+        public TextComponent(string text, string align = "left") : base(HttpUtility.HtmlEncode(text))
         {
             Align = align;
         }
@@ -327,7 +328,7 @@ namespace emailBuilder
         /// <param name="target">target of button</param>
         /// <param name="align">alignment of button</param>
         /// <param name="color">color of the button</param>
-        public ButtonComponent(string text, string target, string align = "left", string color = "blue") : base(text)
+        public ButtonComponent(string text, string target, string align = "left", string color = "blue") : base(HttpUtility.HtmlEncode(text))
         {
             Target = target;
             Align = align;
@@ -377,13 +378,13 @@ namespace emailBuilder
         protected override string AfterBuild(string content)
         {
             return content
-                .Replace("{entrySentence}", _entrySentence)
-                .Replace("{companyName}", _companyName)
-                .Replace("{phone}", _phone)
-                .Replace("{email}", _email)
-                .Replace("{street}", _street)
-                .Replace("{zipCode}", _zipCode)
-                .Replace("{city}", _city);
+                .Replace("{entrySentence}", HttpUtility.HtmlEncode(_entrySentence))
+                .Replace("{companyName}", HttpUtility.HtmlEncode(_companyName))
+                .Replace("{phone}", HttpUtility.HtmlEncode(_phone))
+                .Replace("{email}", HttpUtility.HtmlEncode(_email))
+                .Replace("{street}", HttpUtility.HtmlEncode(_street))
+                .Replace("{zipCode}", HttpUtility.HtmlEncode(_zipCode))
+                .Replace("{city}", HttpUtility.HtmlEncode(_city));
         }
     }
 

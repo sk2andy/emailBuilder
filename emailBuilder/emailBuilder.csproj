@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <PackageId>EmailBuilder</PackageId>
-        <Version>1.3.0</Version>
+        <Version>1.4.0</Version>
         <Authors>André Naumann</Authors>
         <Company>we-do.ai GmbH</Company>
         <LangVersion>7.3</LangVersion>
